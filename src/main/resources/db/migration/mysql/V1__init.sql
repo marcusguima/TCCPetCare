@@ -15,7 +15,6 @@ CREATE TABLE `pet`(
 	`raca` VARCHAR (45),
 	`sexo` VARCHAR (45) NOT NULL,
 	`peso` FLOAT,
-	`fotos` LONGBLOB,
 	`usuario_id` INT NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_pet_usuario_idx` (`usuario_id` ASC),
