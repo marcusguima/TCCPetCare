@@ -24,7 +24,7 @@ public class Usuario implements Serializable {
 	//Colunas, conforme o Banco de Dados
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private int idusuario;
 	
 	@Column(name = "nome", nullable = false, length = 150)
 	private String nome;
@@ -42,11 +42,11 @@ public class Usuario implements Serializable {
 	
 	// Gets e Sets
 	public int getId() {
-		return id;
+		return idusuario;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int idusuario) {
+		this.idusuario = idusuario;
 	}
 	
 	public String getNome() {
@@ -86,7 +86,7 @@ public class Usuario implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "usuario[" + "id=" + id + ","
+		return "usuario[" + "id=" + idusuario + ","
 				+ "nome=" + nome + ","
 				+ "email" + email + ","
 				+ "senha" + senha + "]";

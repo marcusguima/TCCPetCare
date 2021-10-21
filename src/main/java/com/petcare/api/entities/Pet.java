@@ -42,7 +42,7 @@ public class Pet implements Serializable{
 	private String sexo;
 	
 	@Column(name = "peso", nullable = true)
-	private float peso;
+	private int peso;
 	
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -100,11 +100,11 @@ public class Pet implements Serializable{
 		this.sexo = sexo;
 	}
 	
-	public float getPeso() {
+	public int getPeso() {
 		return peso;
 	}
 	
-	public void setPeso(float peso) {
+	public void setPeso(int peso) {
 		this.peso = peso;
 	}
 	
