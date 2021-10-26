@@ -3,7 +3,7 @@ CREATE TABLE `usuario` (
 	`nome` VARCHAR (100) NOT NULL,
 	`email` VARCHAR (150) NOT NULL,
 	`senha` VARCHAR (30) NOT NULL,
-	PRIMARY KEY (`id`),
+	PRIMARY KEY (`idusuario`),
 	UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
@@ -15,12 +15,12 @@ CREATE TABLE `pet`(
 	`raca` VARCHAR (45),
 	`sexo` VARCHAR (45) NOT NULL,
 	`peso` INT,
-	`usuario_id` INT NOT NULL,
+	`usuario_idusuario` INT NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `fk_pet_usuario_idx` (`usuario_id` ASC),
+	INDEX `fk_pet_usuario_idx` (`usuario_idusuario` ASC),
 	CONSTRAINT `fk_pet_usuario`
-		FOREIGN KEY (`usuario_id`)
-		REFERENCES `usuario` (`id`)
+		FOREIGN KEY (`usuario_idusuario`)
+		REFERENCES `usuario` (`idusuario`)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION)
 ENGINE = InnoDB;
