@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.petcare.api.entities.Usuario;
+import com.petcare.api.response.Response;
 import com.petcare.api.services.UsuarioService;
 import com.petcare.api.utils.ConsistenciaException;
 
@@ -34,24 +35,32 @@ public class UsuarioController {
 	// @return -> Dados do Usuário;
 	
 	@GetMapping(value = "/{idusuario}")
-	public ResponseEntity<Usuario> buscarPorId(@PathVariable("idusuario") int idusuario){
+	public ResponseEntity<Response<Usuario>> buscarPorId(@PathVariable("idusuario") int idusuario){
+		
+		Response<Usuario> response = new Response<Usuario>();
 		
 		try {
 			Log.info("Controller: Buscando usuário com id: {}", idusuario);
 			
 			Optional<Usuario> usuario = usuarioService.buscarPorId(idusuario);
 			
-			return ResponseEntity.ok(usuario.get());
+			response.setDados(usuario.get());
+			
+			return ResponseEntity.ok(response);
 			
 		} catch (ConsistenciaException e) {
 			Log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			
-			return ResponseEntity.badRequest().body(new Usuario());
+			response.adicionarErro(e.getMensagem());
+			
+			return ResponseEntity.badRequest().body(response);
 			
 		} catch (Exception e) {
 			Log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			
-			return ResponseEntity.status(500).body(new Usuario());
+			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
+			
+			return ResponseEntity.status(500).body(response);
 		}
 		
 	}
@@ -63,23 +72,31 @@ public class UsuarioController {
 	// @return -> Dados do Usuário;
 	
 	@GetMapping(value = "/email/{email}")
-	public ResponseEntity<Usuario> buscarPorEmail(@PathVariable("email") String email) {
+	public ResponseEntity<Response<Usuario>> buscarPorEmail(@PathVariable("email") String email) {
+		
+		Response<Usuario> response = new Response<Usuario>();
 		
 		try {
 			Log.info("Controller: Buscando cliente por Email: {}", email);
 			
 			Optional<Usuario> usuario = usuarioService.buscarPorEmail(email);
 			
-			return ResponseEntity.ok(usuario.get());
+			response.setDados(usuario.get());
+			
+			return ResponseEntity.ok(response);
 			
 		} catch (ConsistenciaException e) {
 			Log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			
-			return ResponseEntity.badRequest().body(new Usuario());
+			response.adicionarErro(e.getMensagem());
+			
+			return ResponseEntity.badRequest().body(response);
 		} catch(Exception e) {
 			Log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			
-			return ResponseEntity.status(500).body(new Usuario());
+			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
+			
+			return ResponseEntity.status(500).body(response);
 		}
 		
 	}
@@ -88,17 +105,30 @@ public class UsuarioController {
 	//Persiste um Usuário na base;
 	// @param Dados de entrada do Usuário;
 	// @return Dados do Usuário persistindo;
+	
 	@PostMapping
-	public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario) {
+	public ResponseEntity<Response<Usuario>> salvar(@RequestBody Usuario usuario) {
+		
+		Response<Usuario> response = new Response<Usuario>();
 		
 		try {
 			Log.info("Controller: Salvando o Usuário: {}", usuario.toString());
 			
-			return ResponseEntity.ok(this.usuarioService.salvar(usuario));
+			response.setDados(this.usuarioService.salvar(usuario));
+			
+			return ResponseEntity.ok(response);
 		} catch (ConsistenciaException e) {
 			Log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			
-			return ResponseEntity.status(500).body(new Usuario());
+			response.adicionarErro(e.getMensagem());
+			
+			return ResponseEntity.badRequest().body(response);
+		} catch (Exception e) {
+			Log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+			
+			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
+			
+			return ResponseEntity.status(500).body(response);
 		}
 		
 		
