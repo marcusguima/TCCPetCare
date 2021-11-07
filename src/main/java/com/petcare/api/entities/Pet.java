@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
  
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,7 +25,7 @@ public class Pet implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private int idpet;
 	
 	@Column(name = "especie", nullable = false, length = 45)
 	private String especie;
@@ -48,16 +49,20 @@ public class Pet implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Usuario usuario;
 	
+	@JsonBackReference
+	@OneToOne(fetch = FetchType.LAZY)
+	private Cuidadopet cuidadopet;
+	
 	
 	
 	//Gets e Sets
 	
 	public int getId() {
-		return id;
+		return idpet;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int idpet) {
+		this.idpet = idpet;
 	}
 	
 	public String getEspecie() {
@@ -116,11 +121,19 @@ public class Pet implements Serializable{
 		this.usuario = usuario;
 	}
 	
+	public Cuidadopet getCuidadoPet() {
+		return cuidadopet;
+	}
+	
+	public void setCuidadoPet(Cuidadopet cuidadopet) {
+		this.cuidadopet = cuidadopet;
+	}
+	
 	//Override toString
 	
 	@Override
 	public String toString() {
-		return "pet[" + "id=" + id + ","
+		return "pet[" + "idpet=" + idpet + ","
 				+ "especie" + especie + ","
 				+ "nome" + nome + ","
 				+ "dtNascimento" + dtNascimento + ","

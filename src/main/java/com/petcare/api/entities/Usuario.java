@@ -10,8 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -38,6 +41,12 @@ public class Usuario implements Serializable {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pet> pets;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "usuario_dicainteracao",
+				joinColumns = { @JoinColumn(name = "usuario_idusuario")},
+				inverseJoinColumns = { @JoinColumn(name = "dicainteracao_iddica") })
+	private List<Dicainteracao> dicasinteracao;
 	
 	
 	// Gets e Sets
@@ -81,6 +90,13 @@ public class Usuario implements Serializable {
 		this.pets = pets;
 	}
 	
+	public List<Dicainteracao> getDicasinteracao() {
+		return dicasinteracao;
+	}
+	
+	public void setDicasinteracao(List<Dicainteracao> dicasinteracao) {
+		this.dicasinteracao = dicasinteracao;
+	}
 	
 	//Override ToString
 	
