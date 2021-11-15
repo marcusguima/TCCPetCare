@@ -21,7 +21,7 @@ public class UsuarioService {
 	
 	public Optional<Usuario> buscarPorId(int idusuario) throws ConsistenciaException {
 		
-		Log.info("Service: Buscando um cliente com o id: {}", idusuario);
+		Log.info("Service: Buscando um usuário com o id: {}", idusuario);
 		
 		Optional<Usuario> usuario = usuarioRepository.findById(idusuario);
 		

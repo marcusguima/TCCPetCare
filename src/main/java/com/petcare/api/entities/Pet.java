@@ -49,9 +49,9 @@ public class Pet implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Usuario usuario;
 	
-	@JsonBackReference
-	@OneToOne(fetch = FetchType.LAZY)
-	private Cuidadopet cuidadopet;
+//	@JsonBackReference(value= "idcuidadopet")
+//	@OneToOne(fetch = FetchType.LAZY)
+//	private Cuidadopet cuidadopet;
 	
 	
 	
@@ -121,13 +121,13 @@ public class Pet implements Serializable{
 		this.usuario = usuario;
 	}
 	
-	public Cuidadopet getCuidadoPet() {
-		return cuidadopet;
-	}
-	
-	public void setCuidadoPet(Cuidadopet cuidadopet) {
-		this.cuidadopet = cuidadopet;
-	}
+//	public Cuidadopet getCuidadoPet() {
+//		return cuidadopet;
+//	}
+//	
+//	public void setCuidadoPet(Cuidadopet cuidadopet) {
+//		this.cuidadopet = cuidadopet;
+//	}
 	
 	//Override toString
 	

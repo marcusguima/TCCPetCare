@@ -1,5 +1,6 @@
 package com.petcare.api.dtos;
 
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Email;
 
@@ -20,6 +21,7 @@ public class UsuarioDto {
 	@NotEmpty(message = "Senha não pode ser vazio.")
 	@Length(min = 4, max = 30, message = "Senha deve conter entre 4 e 30 caracteres.")
 	private String senha;
+	
 	
 	public String getId() {
 		return idusuario;
@@ -52,8 +54,8 @@ public class UsuarioDto {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
+		
+
 	@Override
 	public String toString() {
 		return "Usuario[id=" + idusuario + ","
