@@ -20,48 +20,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.petcare.api.dtos.PetDto;
+import com.petcare.api.dtos.VeterinarioDto;
 import com.petcare.api.entities.Pet;
+import com.petcare.api.entities.Veterinario;
 import com.petcare.api.services.PetService;
+import com.petcare.api.services.VeterinarioService;
 import com.petcare.api.utils.ConsistenciaException;
 import com.petcare.api.utils.ConversaoUtils;
 import com.petcare.api.response.Response;
 
-
 @RestController
-@RequestMapping("/api/pet")
+@RequestMapping("/api/veterinario")
 @CrossOrigin(origins = "*")
-public class PetController {
-	
-	private static final Logger Log = LoggerFactory.getLogger(UsuarioController.class);
+public class VeterinarioController {
+
+	private static final Logger Log = LoggerFactory.getLogger(PetController.class);
 	
 	@Autowired
-	private PetService petService;
+	private VeterinarioService veterinarioService;
 	
 	
-	// Retorna os Pets informados no parâmetro
-	// @param -> Id do Usuário a ser consultado
-	// @return -> Lista de Pets que o Usuário possui
+	// Retorna os Veterinarios informados no parâmetro
+	 // Retona os Veterinarios de um determinado PET
+		// @param -> Id do Pet a ser consultado
+		// @return -> Lista de Veterinarios que o Pet possui
 	
-	@GetMapping(value = "/usuario/{usuarioId}")
-	public ResponseEntity<Response<List<PetDto>>> buscarPorUsuarioId(@PathVariable("usuarioId") int usuarioId) {
+
+	
+	@GetMapping(value = "/pet/{petId}")
+	public ResponseEntity<Response<List<VeterinarioDto>>> buscarPorPetId(@PathVariable("petId") int petId){
 		
-		Response<List<PetDto>> response = new Response<List<PetDto>>();
+		Response<List<VeterinarioDto>> response = new Response<List<VeterinarioDto>>();
 		
-		try {
-			Log.info("Controller: Buscando Pets do Usuário de Id: {}", usuarioId);
+		try { 
+			Log.info("Controller: Buscando os Veterinários do Pet de Id: {}", petId);
 			
-			Optional<List<Pet>> listaPets = petService.buscarPorUsuarioId(usuarioId);
+			Optional<List<Veterinario>> listaVeterinarios = veterinarioService.buscarPorPetId(petId);
 			
-			response.setDados(ConversaoUtils.ConverterLista(listaPets.get()));
+			response.setDados(ConversaoUtils.ConverterListaVet(listaVeterinarios.get()));
 			
 			return ResponseEntity.ok(response);
 		} catch (ConsistenciaException e) {
 			Log.info("Controller: Inconsistência de dados: {}", e.getMessage());
-			
 			response.adicionarErro(e.getMensagem());
-			
 			return ResponseEntity.badRequest().body(response);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			Log.error("Controller: Ocorreu um erro na Aplicação: {}", e.getMessage());
 			
 			response.adicionarErro("Ocorreu um erro na Aplicação: {}", e.getMessage());
@@ -69,20 +72,31 @@ public class PetController {
 			return ResponseEntity.status(500).body(response);
 		}
 		
+		
+		
 	}
 	
 	
-	// Persiste um PET na base
-	// @param -> Dados de Entrada do Pet
-	// @return -> Dados do Pet persistindo
+	
+	
+	
+	
+	
+	
+	
+	// Persiste um Veterinário na base
+		// @param -> Dados de Entrada do Veterinario
+		// @return -> Dados do Veterinario persistindo
+	
+
 	
 	@PostMapping
-	public ResponseEntity<Response<PetDto>> salvar (@Valid @RequestBody PetDto petDto, BindingResult result) {
+	public ResponseEntity<Response<VeterinarioDto>> salvar(@Valid @RequestBody VeterinarioDto veterinarioDto, BindingResult result){
 		
-		Response<PetDto> response = new Response<PetDto>();
+		Response<VeterinarioDto> response = new Response<VeterinarioDto>();	
 		
 		try {
-			Log.info("Controller: Salvando o Pet: {}", petDto.toString());
+			Log.info("Controller: Salvando o Veterinário: {}", veterinarioDto.toString());
 			
 			if(result.hasErrors() ) {
 				for (int i = 0; i < result.getErrorCount(); i++) {
@@ -93,10 +107,10 @@ public class PetController {
 				
 				return ResponseEntity.badRequest().body(response);
 			}
+		
+			Veterinario veterinario = this.veterinarioService.salvar(ConversaoUtils.Converter(veterinarioDto));
 			
-			Pet pet = this.petService.salvar(ConversaoUtils.Converter(petDto));
-			
-			response.setDados(ConversaoUtils.Converter(pet));
+			response.setDados(ConversaoUtils.Converter(veterinario));
 			
 			return ResponseEntity.ok(response);
 		} catch (ConsistenciaException e) {
@@ -116,39 +130,45 @@ public class PetController {
 	}
 	
 	
-	// Excluí um Pet a partir do Id informado no Parâmetro
-	// @Param -> Id do Pet a ser excluído
-	// @Return -> Sucesso | Erro
 	
-	@DeleteMapping(value = "excluir/{idpet}")
-	public ResponseEntity<Response<String>> excluirPorId(@PathVariable("idpet") int idpet){
+	
+	
+	
+	
+	// Excluí um Veterinário a partir do Id informado no Parâmetro
+	 // Excluí um determinado veterinário
+		// @Param -> Id do Veterinario a ser excluído
+		// @Return -> Sucesso | Erro
+	
+
+	@DeleteMapping(value = "excluir/{idveterinario}")
+	public ResponseEntity<Response<String>> excluirPorId(@PathVariable("idveterinario") int idveterinario){
 		
 		Response<String> response = new Response<String>();
 		
 		try {
-			Log.info("Controller: Excluíndo o Pet de Id: {}", idpet);
-
-			petService.excluirPorId(idpet);
+			Log.info("Controller: Excluíndo o Veterinário de Id: {}", idveterinario);
 			
-			response.setDados("Pet de Id: " + idpet + " excluído com sucesso!");
+			veterinarioService.excluirPorId(idveterinario);
+			
+			response.setDados("Veterinário de Id: " + idveterinario + " excluído com sucesso!");
 			
 			return ResponseEntity.ok(response);
-		} catch (ConsistenciaException e){
+					
+		} catch (ConsistenciaException e) {
 			Log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			
 			response.adicionarErro(e.getMensagem());
 			
-			return ResponseEntity.badRequest().body(response);
-		} catch(Exception e){
+			return ResponseEntity.badRequest().body(response);		
+			
+		} catch (Exception e) {
 			Log.error("Controller: Ocorreu um erro na Aplicação: {}", e.getMessage());
-			
 			response.adicionarErro("Ocorreu um erro na Aplicação: {}", e.getMessage());
-			
 			return ResponseEntity.status(500).body(response);
 		}
 		
 	}
 	
-
-
+	
 }

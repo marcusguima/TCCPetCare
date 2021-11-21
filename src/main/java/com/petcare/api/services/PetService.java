@@ -28,7 +28,7 @@ public class PetService {
 	
 	public Optional<Pet> buscarPorId(int idpet) throws ConsistenciaException {
 		
-		Log.info("Service: Buscando o Pet de Id:", idpet);
+		Log.info("Service: Buscando o Pet de Id: {}", idpet);
 		
 		Optional<Pet> pet = petRepository.findById(idpet);
 		

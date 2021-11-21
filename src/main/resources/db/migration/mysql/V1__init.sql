@@ -72,26 +72,14 @@ CREATE TABLE `veterinario` (
 	`especialidade` VARCHAR (150) NOT NULL,
 	`telefone` VARCHAR (30) NOT NULL,
 	`endereco` VARCHAR (200) NOT NULL,
-	PRIMARY KEY(`idveterinario`),
-	UNIQUE INDEX `nome_UNIQUE` (`nome` ASC))
-ENGINE = InnoDB;
-
-CREATE TABLE `pet_veterinario` (
 	`pet_idpet` INT NOT NULL,
-	`veterinario_idveterinario` INT NOT NULL,
-	PRIMARY KEY (`pet_idpet`, `veterinario_idveterinario`),
-	INDEX `fk_pet_veterinario_veterinario_idx` (`veterinario_idveterinario` ASC),
-	INDEX `fk_pet_veterinario_pet_idx` (`pet_idpet` ASC),
-	CONSTRAINT `fk_pet_veterinario_pet`
+	PRIMARY KEY(`idveterinario`),
+	INDEX `fk_veterinario_pet_idx` (`pet_idpet` ASC),
+	CONSTRAINT `fk_veterinario_pet`
 		FOREIGN KEY (`pet_idpet`)
 		REFERENCES `pet` (`idpet`)
 		ON DELETE NO ACTION
-		ON UPDATE NO ACTION,
-	CONSTRAINT `fk_pet_veterinario_veterinario`
-		FOREIGN KEY (`veterinario_idveterinario`)
-		REFERENCES `veterinario` (`idveterinario`)
-		ON DELETE NO ACTION
-		ON UPDATE NO ACTION)
+		ON UPDATE NO ACTION) 
 ENGINE = InnoDB;
 
 CREATE TABLE `fichasaude` (

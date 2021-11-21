@@ -9,9 +9,60 @@ import com.petcare.api.dtos.UsuarioDto;
 import com.petcare.api.entities.Usuario;
 import com.petcare.api.dtos.PetDto;
 import com.petcare.api.entities.Pet;
+import com.petcare.api.dtos.VeterinarioDto;
+import com.petcare.api.entities.Veterinario;
 
 public class ConversaoUtils {
 
+	public static Veterinario Converter(VeterinarioDto veterinarioDto) throws ParseException {
+		
+		Veterinario veterinario = new Veterinario();
+		
+		if(veterinarioDto.getId() != null && veterinarioDto.getId() != "")
+			veterinario.setId(Integer.parseInt(veterinarioDto.getId()));
+		
+		veterinario.setNome(veterinario.getNome());
+		veterinario.setEspecialidade(veterinario.getEspecialidade());
+		veterinario.setTelefone(veterinario.getTelefone());
+		veterinario.setEndereco(veterinario.getEndereco());
+		
+		Pet pet = new Pet();
+		pet.setId(Integer.parseInt(veterinarioDto.getPetId()));
+		
+		veterinario.setPet(pet);
+		
+		return veterinario;
+		
+	}
+	
+	public static VeterinarioDto Converter(Veterinario veterinario) {
+		
+		VeterinarioDto veterinarioDto = new VeterinarioDto();
+		
+		veterinarioDto.setId(String.valueOf(veterinario.getId()));
+		veterinarioDto.setNome(veterinario.getNome());
+		veterinarioDto.setEspecialidade(veterinario.getEspecialidade());
+		veterinarioDto.setTelefone(veterinario.getTelefone());
+		veterinarioDto.setEndereco(veterinario.getEndereco());
+		veterinarioDto.setPetId(String.valueOf(veterinario.getPet().getId()));
+		
+		return veterinarioDto;
+		
+	}
+
+	public static List<VeterinarioDto> ConverterListaVet(List<Veterinario> lista) {
+	
+		List<VeterinarioDto> lst = new ArrayList<VeterinarioDto>(lista.size());
+	
+		for(Veterinario veterinario : lista) {
+			lst.add(Converter(veterinario));
+		}
+	
+		return lst;
+	
+	}
+
+	
 	public static Pet Converter(PetDto petDto) throws ParseException {
 		
 		Pet pet = new Pet();

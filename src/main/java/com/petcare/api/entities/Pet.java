@@ -60,11 +60,15 @@ public class Pet implements Serializable{
 //	@OneToOne(fetch = FetchType.LAZY)
 //	private Cuidadopet cuidadopet;
 	
+//	@JsonManagedReference
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinTable(name = "pet_veterinario",
+//	joinColumns = { @JoinColumn(name = "pet_idpet")},
+//	inverseJoinColumns = { @JoinColumn(name = "veterinario_idveterinario") })
+//	private List<Veterinario> veterinarios;
+	
 	@JsonManagedReference
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "pet_veterinario",
-	joinColumns = { @JoinColumn(name = "pet_idpet")},
-	inverseJoinColumns = { @JoinColumn(name = "veterinario_idveterinario") })
+	@OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Veterinario> veterinarios;
 	
 	

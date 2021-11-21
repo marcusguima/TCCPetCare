@@ -1,13 +1,20 @@
 package com.petcare.api.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
@@ -33,6 +40,18 @@ public class Veterinario implements Serializable{
 	
 	@Column(name = "endereco", nullable = false, length = 200)
 	private String endereco;
+	
+//	@JsonBackReference
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@JoinTable(name = "pet_veterinario",
+//	joinColumns = { @JoinColumn(name = "pet_idpet")},
+//	inverseJoinColumns = { @JoinColumn(name = "veterinario_idveterinario") })
+//	private List<Pet> pets;
+	
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Pet pet;
+	
 	
 	// Gets e Sets
 	public int getId() {
@@ -75,14 +94,25 @@ public class Veterinario implements Serializable{
 		this.endereco = endereco;
 	}
 	
+	public Pet getPet() {
+		return pet;
+	}
+	
+	public void setPet(Pet pet) {
+		this.pet = pet;
+	}
+	
+	
+	
 	//Override ToString
 	@Override
 	public String toString() {
-		return "veterinario[id=" + idveterinario + ","
+		return "veterinario[" + "idveterinario" + idveterinario + ","
 				+ "nome" + nome + ","
 				+ "especialidade" + especialidade + ","
 				+ "telefone" + telefone + ","
-				+ "endereco" + endereco + "]";
+				+ "endereco" + endereco + ","
+				+ "pet" + pet + "]";
 		
 	}
 	
