@@ -43,11 +43,11 @@ public class Usuario implements Serializable {
 	private List<Pet> pets;
 	
 	
-//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	@JoinTable(name = "usuario_dicainteracao",
-//				joinColumns = { @JoinColumn(name = "usuario_idusuario")},
-//				inverseJoinColumns = { @JoinColumn(name = "dicainteracao_iddica") })
-//	private List<Dicainteracao> dicasinteracao;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "usuario_dicainteracao",
+				joinColumns = { @JoinColumn(name = "usuario_idusuario")},
+				inverseJoinColumns = { @JoinColumn(name = "dicainteracao_iddica") })
+	private List<Dicainteracao> dicasinteracao;
 	
 	
 	// Gets e Sets
@@ -91,13 +91,13 @@ public class Usuario implements Serializable {
 		this.pets = pets;
 	}
 	
-//	public List<Dicainteracao> getDicasinteracao() {
-//		return dicasinteracao;
-//	}
-//	
-//	public void setDicasinteracao(List<Dicainteracao> dicasinteracao) {
-//		this.dicasinteracao = dicasinteracao;
-//	}
+	public List<Dicainteracao> getDicasinteracao() {
+		return dicasinteracao;
+	}
+	
+	public void setDicasinteracao(List<Dicainteracao> dicasinteracao) {
+		this.dicasinteracao = dicasinteracao;
+	}
 	
 	//Override ToString
 	

@@ -1,7 +1,7 @@
 CREATE TABLE `usuario` (
 	`idusuario` INT NOT NULL AUTO_INCREMENT,
-	`nome` VARCHAR (100) NOT NULL,
-	`email` VARCHAR (150) NOT NULL,
+	`nome` VARCHAR (150) NOT NULL,
+	`email` VARCHAR (100) NOT NULL,
 	`senha` VARCHAR (30) NOT NULL,
 	PRIMARY KEY (`idusuario`),
 	UNIQUE INDEX `email_UNIQUE` (`email` ASC))
@@ -65,3 +65,73 @@ CREATE TABLE `cuidadopet` (
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+CREATE TABLE `veterinario` (
+	`idveterinario` INT NOT NULL AUTO_INCREMENT,
+	`nome` VARCHAR (150) NOT NULL,
+	`especialidade` VARCHAR (150) NOT NULL,
+	`telefone` VARCHAR (30) NOT NULL,
+	`endereco` VARCHAR (200) NOT NULL,
+	PRIMARY KEY(`idveterinario`),
+	UNIQUE INDEX `nome_UNIQUE` (`nome` ASC))
+ENGINE = InnoDB;
+
+CREATE TABLE `pet_veterinario` (
+	`pet_idpet` INT NOT NULL,
+	`veterinario_idveterinario` INT NOT NULL,
+	PRIMARY KEY (`pet_idpet`, `veterinario_idveterinario`),
+	INDEX `fk_pet_veterinario_veterinario_idx` (`veterinario_idveterinario` ASC),
+	INDEX `fk_pet_veterinario_pet_idx` (`pet_idpet` ASC),
+	CONSTRAINT `fk_pet_veterinario_pet`
+		FOREIGN KEY (`pet_idpet`)
+		REFERENCES `pet` (`idpet`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+	CONSTRAINT `fk_pet_veterinario_veterinario`
+		FOREIGN KEY (`veterinario_idveterinario`)
+		REFERENCES `veterinario` (`idveterinario`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE `fichasaude` (
+	`idficha` INT NOT NULL AUTO_INCREMENT,
+	`nome_Saude` VARCHAR (100),
+	`data_Saude` DATE,
+	`hora_Saude` TIME,
+	`tipo_Saude` VARCHAR (1),
+	`pet_idpet` INT NOT NULL,
+	`veterinario_idveterinario` INT NOT NULL,
+	PRIMARY KEY (`idficha`),
+	INDEX `fk_fichasaude_pet_idx` (`pet_idpet` ASC),
+	INDEX `fk_fichasaude_veterinario_idx` (`veterinario_idveterinario` ASC),
+	CONSTRAINT `fk_fichasaude_pet`
+		FOREIGN KEY (`pet_idpet`)
+		REFERENCES `pet` (`idpet`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+	CONSTRAINT `fk_fichasaude_veterinario`
+		FOREIGN KEY (`veterinario_idveterinario`)
+		REFERENCES `veterinario` (`idveterinario`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE `medicamento` (
+	`idmedicamento` INT NOT NULL AUTO_INCREMENT,
+	`nome_Med` VARCHAR (50) NOT NULL,
+	`finalidade_Med` VARCHAR (150), 
+	`dose_Med` VARCHAR (50) NOT NULL,
+	`hora_Med` TIME NOT NULL,
+	`intervalo` INT NOT NULL,
+	`data_Inicial` DATE NOT NULL,
+	`data_Final` DATE NOT NULL,
+	`fichasaude_idficha` INT NOT NULL,
+	PRIMARY KEY (`idmedicamento`),
+	INDEX `fk_medicamento_fichasaude_idx` (`fichasaude_idficha` ASC),
+	CONSTRAINT `fk_medicamento_fichasaude`
+		FOREIGN KEY (`fichasaude_idficha`)
+		REFERENCES `fichasaude` (`idficha`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+ENGINE = InnoDB; 

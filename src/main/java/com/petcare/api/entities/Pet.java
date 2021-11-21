@@ -2,18 +2,25 @@ package com.petcare.api.entities;
 
 import java.io.Serializable;
 import java.util.Date;
- 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
  
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "pet")
@@ -53,6 +60,12 @@ public class Pet implements Serializable{
 //	@OneToOne(fetch = FetchType.LAZY)
 //	private Cuidadopet cuidadopet;
 	
+	@JsonManagedReference
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "pet_veterinario",
+	joinColumns = { @JoinColumn(name = "pet_idpet")},
+	inverseJoinColumns = { @JoinColumn(name = "veterinario_idveterinario") })
+	private List<Veterinario> veterinarios;
 	
 	
 	//Gets e Sets
@@ -128,6 +141,15 @@ public class Pet implements Serializable{
 //	public void setCuidadoPet(Cuidadopet cuidadopet) {
 //		this.cuidadopet = cuidadopet;
 //	}
+	
+	public List<Veterinario> getVeterinarios() {
+		return veterinarios;
+	}
+	
+	public void setVeterinarios(List<Veterinario> veterinarios) {
+		this.veterinarios = veterinarios;
+	}
+	
 	
 	//Override toString
 	

@@ -68,7 +68,7 @@ public class Dicainteracao implements Serializable {
 	//Override ToString
 	@Override
 	public String toString() {
-		return "Dicainteracao[id=" + iddica + ","
+		return "dicainteracao[id=" + iddica + ","
 				+ "dica" + dica + ","
 				+ "tipoDica" + tipoDica + ","
 				+ "especieDica" + especieDica + "]";
