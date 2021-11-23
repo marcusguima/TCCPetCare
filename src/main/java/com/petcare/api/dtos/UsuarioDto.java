@@ -2,6 +2,9 @@ package com.petcare.api.dtos;
 
 
 import javax.validation.constraints.NotEmpty;
+
+import java.util.List;
+
 import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.Length;
@@ -21,6 +24,8 @@ public class UsuarioDto {
 	@NotEmpty(message = "Senha não pode ser vazio.")
 	@Length(min = 4, max = 30, message = "Senha deve conter entre 4 e 30 caracteres.")
 	private String senha;
+	
+	private List<DicainteracaoDto> dicasinteracao;
 	
 	
 	public String getId() {
@@ -54,7 +59,15 @@ public class UsuarioDto {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-		
+	
+	public List<DicainteracaoDto> getDicasinteracao(){
+		return dicasinteracao;
+	}
+	
+	public void setDicasinteracao(List<DicainteracaoDto> dicasinteracao) {
+		this.dicasinteracao = dicasinteracao;
+	}
+	
 
 	@Override
 	public String toString() {

@@ -44,7 +44,7 @@ public class PetService {
 	
 	public Optional<List<Pet>> buscarPorUsuarioId(int usuarioId) throws ConsistenciaException {
 		
-		Log.info("Service: Buscando os Pets do Cliente de Id: {}", usuarioId);
+		Log.info("Service: Buscando os Pets do Usuário de Id: {}", usuarioId);
 		
 		Optional<List<Pet>> pets = Optional.ofNullable(petRepository.findByUsuarioId(usuarioId));
 		

@@ -7,7 +7,9 @@ import java.util.List;
 
 import com.petcare.api.dtos.UsuarioDto;
 import com.petcare.api.entities.Usuario;
+import com.petcare.api.dtos.DicainteracaoDto;
 import com.petcare.api.dtos.PetDto;
+import com.petcare.api.entities.Dicainteracao;
 import com.petcare.api.entities.Pet;
 import com.petcare.api.dtos.VeterinarioDto;
 import com.petcare.api.entities.Veterinario;
@@ -127,7 +129,23 @@ public class ConversaoUtils {
 		usuario.setEmail(usuarioDto.getEmail());
 		usuario.setSenha(usuarioDto.getSenha());
 		
+		if (usuarioDto.getDicasinteracao() != null && usuarioDto.getDicasinteracao().size() > 0) {
+			
+			usuario.setDicasinteracao(new ArrayList<Dicainteracao>());
+			
+			for (DicainteracaoDto dicainteracaoDto : usuarioDto.getDicasinteracao()) {
+				
+				Dicainteracao dicainteracao = new Dicainteracao();
+				dicainteracao.setDica(dicainteracaoDto.getDica());
+				
+				usuario.getDicasinteracao().add(dicainteracao);
+				
+			}
+			
+		}
+		
 		return usuario;
+		
 		
 	}
 	
@@ -140,9 +158,64 @@ public class ConversaoUtils {
 		usuarioDto.setEmail(usuario.getEmail());
 		usuarioDto.setSenha(usuario.getSenha());
 		
+		if(usuario.getDicasinteracao() != null) {
+			
+			usuarioDto.setDicasinteracao(new ArrayList<DicainteracaoDto>());
+			
+			for(int i = 0; i < usuario.getDicasinteracao().size(); i++) {
+				
+				DicainteracaoDto dicainteracaoDto = new DicainteracaoDto();
+				
+				dicainteracaoDto.setDica(usuario.getDicasinteracao().get(i).getDica());
+				dicainteracaoDto.setTipoDica(usuario.getDicasinteracao().get(i).getTipoDica());
+				dicainteracaoDto.setEspecieDica(usuario.getDicasinteracao().get(i).getEspecieDica());
+				
+			}
+			
+		}
+		
 		return usuarioDto;
 			
 	}
 	
+	
+	public static DicainteracaoDto Converter(Dicainteracao dicainteracao) {
+		
+		DicainteracaoDto dicainteracaoDto = new DicainteracaoDto();
+		
+		dicainteracaoDto.setDica(dicainteracao.getDica());
+		dicainteracaoDto.setTipoDica(dicainteracao.getTipoDica());
+		dicainteracaoDto.setEspecieDica(dicainteracao.getEspecieDica());
+		
+		return dicainteracaoDto;
+		
+	}
+	
+	
+	
+	public static List<DicainteracaoDto> Converter (List<Dicainteracao> dicasinteracao){
+		
+		List<DicainteracaoDto> dicasinteracaoDto = new ArrayList<DicainteracaoDto>();
+		
+		for (Dicainteracao dicainteracao : dicasinteracao)
+			dicasinteracaoDto.add(Converter(dicainteracao));
+		
+		return dicasinteracaoDto;
+		
+	}
+	
+	// * REMOVER TRECHO DE CÓDIGO NAO UTILIZADO*
+//	public static List<DicainteracaoDto> ConverterListaDicas(List<Dicainteracao> listaDicas) {
+//		
+//		List<DicainteracaoDto> lst = new ArrayList<DicainteracaoDto>(listaDicas.size());
+//		
+//		for(Dicainteracao dicainteracao : listaDicas) {
+//			lst.add(Converter(dicainteracao));
+//		}
+//		
+//		return lst;
+//		
+//	}
+	// * REMOVER TRECHO DE CÓDIGO NAO UTILIZADO*
 	
 }
