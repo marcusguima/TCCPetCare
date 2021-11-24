@@ -13,6 +13,8 @@ import com.petcare.api.entities.Dicainteracao;
 import com.petcare.api.entities.Pet;
 import com.petcare.api.dtos.VeterinarioDto;
 import com.petcare.api.entities.Veterinario;
+import com.petcare.api.entities.Cuidadopet;
+import com.petcare.api.dtos.CuidadopetDto;
 
 public class ConversaoUtils {
 
@@ -217,5 +219,79 @@ public class ConversaoUtils {
 //		
 //	}
 	// * REMOVER TRECHO DE CÓDIGO NAO UTILIZADO*
+	
+	
+	// Converter Lista
+	
+	
+	
+	
+	
+	// Converter - SALVAR
+	
+		public static Cuidadopet Converter(CuidadopetDto cuidadopetDto) throws ParseException {
+		
+		Cuidadopet cuidadopet = new Cuidadopet();
+		
+		if(cuidadopetDto.getId() != null && cuidadopetDto.getId() != "")
+			cuidadopet.setId(Integer.parseInt(cuidadopetDto.getId()));
+		
+		cuidadopet.setDataCuidado(new SimpleDateFormat("dd/MM/yyyy").parse(cuidadopetDto.getDataCuidado()));
+		cuidadopet.setTipoCuidado(cuidadopetDto.getTipoCuidado());
+		cuidadopet.setNomeCuidado(cuidadopetDto.getNomeCuidado());
+		
+		Pet pet = new Pet();
+		pet.setId(Integer.parseInt(cuidadopetDto.getPetId()));
+		
+		cuidadopet.setPet(pet);
+		
+		return cuidadopet;
+		
+	}
+	
+	public static CuidadopetDto Converter(Cuidadopet cuidadopet) {
+		
+		CuidadopetDto cuidadopetDto = new CuidadopetDto();
+		
+		cuidadopetDto.setId(String.valueOf(cuidadopet.getId()));
+		cuidadopetDto.setDataCuidado(cuidadopet.getDataCuidado().toString());
+		cuidadopetDto.setTipoCuidado(cuidadopet.getTipoCuidado());
+		cuidadopetDto.setNomeCuidado(cuidadopet.getNomeCuidado());
+		cuidadopetDto.setPetId(String.valueOf(cuidadopet.getPet().getId()));
+		
+		return cuidadopetDto;
+		
+	}
+	
+	public static List<CuidadopetDto> ConverterListaCuidado(List<Cuidadopet> listaCuidados) {
+		
+		List<CuidadopetDto> lst = new ArrayList<CuidadopetDto>(listaCuidados.size());
+		
+		for(Cuidadopet cuidadopet : listaCuidados) {
+			lst.add(Converter(cuidadopet));
+		}
+		
+		return lst;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
